@@ -1,0 +1,285 @@
+def binary_to_decimal(binary):
+    integer_part, fractional_part = binary.split('.')
+    integer_value = int(integer_part, 2)
+    fractional_value = sum(int(bit) * 2 ** -(i + 1) for i, bit in enumerate(fractional_part))
+    return integer_value + fractional_value
+
+def binary_to_hexadecimal(binary):
+    integer_part, fractional_part = binary.split('.')
+    integer_value = hex(int(integer_part, 2))[2:]
+    fractional_value = ''
+    if fractional_part:
+        fractional_value = hex(int(fractional_part, 2))[2:]
+    return f"{integer_value}.{fractional_value}"
+
+def binary_to_octal(binary):
+    integer_part, fractional_part = binary.split('.')
+    integer_value = oct(int(integer_part, 2))[2:]
+    fractional_value = ''
+    if fractional_part:
+        fractional_value = oct(int(fractional_part, 2)).replace('0o', '')
+    return f"{integer_value}.{fractional_value}"
+
+def decimal_to_binary(decimal):
+    int_part, frac_part = str(decimal).split('.')
+    int_part_binary = bin(int(int_part)).split('b')[-1]
+    frac_part_binary = ''
+    if frac_part != '0':
+        frac_part_decimal = float('0.' + frac_part)
+        frac_part_binary = '.'
+        while frac_part_decimal:
+            frac_part_decimal *= 2
+            bit = int(frac_part_decimal)
+            frac_part_binary += str(bit)
+            frac_part_decimal -= bit
+            if len(frac_part_binary) > 32:
+                break
+    binary_number = int_part_binary + frac_part_binary
+    return binary_number
+
+def decimal_to_hexadecimal(decimal):
+    int_part, frac_part = str(decimal).split('.')
+    int_part_hex = hex(int(int_part)).split('x')[-1]
+    frac_part_hex = ''
+    if frac_part != '0':
+        frac_part_decimal = float('0.' + frac_part)
+        frac_part_hex = '.'
+        while frac_part_decimal:
+            frac_part_decimal *= 16
+            digit = int(frac_part_decimal)
+            if digit < 10:
+                frac_part_hex += str(digit)
+            else:
+                frac_part_hex += chr(ord('a') + digit - 10)
+            frac_part_decimal -= digit
+            if len(frac_part_hex) > 8:
+                break
+    hex_number = int_part_hex + frac_part_hex
+    return hex_number
+
+def decimal_to_octal(decimal):
+    int_part, frac_part = str(decimal).split('.')
+    int_part_octal = oct(int(int_part)).split('o')[-1]
+    frac_part_octal = ''
+    if frac_part != '0':
+        frac_part_decimal = float('0.' + frac_part)
+        frac_part_octal = '.'
+        while frac_part_decimal:
+            frac_part_decimal *= 8
+            digit = int(frac_part_decimal)
+            frac_part_octal += str(digit)
+            frac_part_decimal -= digit
+            if len(frac_part_octal) > 8:
+                break
+    octal_number = int_part_octal + frac_part_octal
+    return octal_number
+
+def octal_to_binary(octal):
+    int_part, frac_part = str(octal).split('.')
+    int_part_binary = bin(int(int_part, 8)).split('b')[-1]
+    frac_part_binary = ''
+    if frac_part != '0':
+        frac_part_decimal = sum(int(frac_part[i]) * 8 ** -(i + 1) for i in range(len(frac_part)))
+        frac_part_binary = '.'
+        while frac_part_decimal:
+            frac_part_decimal *= 2
+            bit = int(frac_part_decimal)
+            frac_part_binary += str(bit)
+            frac_part_decimal -= bit
+            if len(frac_part_binary) > 32:
+                break
+    binary_number = int_part_binary + frac_part_binary
+    return binary_number
+
+def octal_to_decimal(octal):
+    int_part, frac_part = str(octal).split('.')
+    int_part_decimal = int(int_part, 8)
+    frac_part_decimal = sum(int(frac_part[i]) * 8 ** -(i + 1) for i in range(len(frac_part)))
+    decimal_number = int_part_decimal + frac_part_decimal
+    return decimal_number
+
+def octal_to_hexadecimal(octal):
+    int_part_decimal = int(octal.split('.')[0], 8)
+    if '.' in octal:
+        frac_part_octal = octal.split('.')[1]
+        frac_part_decimal = sum(int(frac_part_octal[i]) * 8 ** -(i + 1) for i in range(len(frac_part_octal)))
+        frac_part_hex = ''
+        while frac_part_decimal:
+            frac_part_decimal *= 16
+            digit = int(frac_part_decimal)
+            if digit < 10:
+                frac_part_hex += str(digit)
+            else:
+                frac_part_hex += chr(ord('a') + digit - 10)
+            frac_part_decimal -= digit
+            if len(frac_part_hex) > 8:
+                break
+    else:
+        frac_part_hex = ''
+    hexadecimal_number = hex(int_part_decimal).split('x')[-1] + '.' + frac_part_hex
+    return hexadecimal_number
+
+def hexadecimal_to_binary(hexadecimal):
+    integer_part, fractional_part = hexadecimal.split('.')
+    integer_value = bin(int(integer_part, 16))[2:]
+    fractional_value = ''
+    if fractional_part:
+        fractional_value = bin(int(fractional_part, 16))[2:]
+    return f"{integer_value}.{fractional_value}"
+
+def hexadecimal_to_decimal(hexadecimal):
+    int_part, frac_part = hexadecimal.split('.')
+    int_part_decimal = int(int_part, 16)
+    frac_part_decimal = sum(int(frac_part[i], 16) * 16 ** -(i + 1) for i in range(len(frac_part)))
+    decimal_number = int_part_decimal + frac_part_decimal
+    return decimal_number
+
+def hexadecimal_to_octal(hexadecimal):
+    integer_part, fractional_part = hexadecimal.split('.')
+    integer_value = oct(int(integer_part, 16))[2:]
+    fractional_value = ''
+    if fractional_part:
+        fractional_value = oct(int(fractional_part, 16)).replace('0o', '')
+    return f"{integer_value}.{fractional_value}"
+
+def roman_to_decimal(roman):
+    roman_numerals = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    decimal = 0
+    prev_value = 0
+
+    for numeral in reversed(roman):
+        value = roman_numerals[numeral]
+        if value < prev_value:
+            decimal -= value
+        else:
+            decimal += value
+        prev_value = value
+    return decimal
+
+def AND_gate(input1, input2):
+    if input1 == 1 and input2 == 1:
+        return 1
+    else:
+        return 0
+    
+def OR_gate(input1, input2):
+    if input1 == 1 or input2 == 1:
+        return 1
+    else:
+        return 0
+    
+def NOT_gate(input1):
+    if input1 == 0:
+        return 1
+    else:
+        return 0
+    
+def NAND_gate(input1, input2):
+    if input1 == 1 and input2 == 1:
+        return 0
+    else:
+        return 1
+    
+def NOR_gate(input1, input2):
+    if input1 == 0 and input2 == 0:
+        return 1
+    else:
+        return 0
+    
+def XOR_gate(input1, input2):
+    if input1 != input2 :
+        return 1
+    else:
+        return 0
+    
+def XNOR_gate(input1, input2):
+    if input1 == input2:
+        return 1
+    else:
+        return 0
+
+def logic_gate_operation(c, input1, input2=None):
+    operations = {
+        1: AND_gate,
+        2: OR_gate,
+        3: NOT_gate,
+        4: NAND_gate,
+        5: NOR_gate,
+        6: XOR_gate,
+        7: XNOR_gate
+        }
+    if c == 3:
+        return operations[c](input1)
+    else:
+        return operations[c](input1, input2)
+
+def main():
+    while True:
+        print("Select Choice of operation:\n1. Number System Convertor.\n2. Roman Numerals Convertor.\n3. Logic Gates.\n")
+        cho = int(input("Enter your Choice of Operation(1/2/3): \n"))
+        if cho == 1: #Number system convertor
+            print("Choice of conversion:\n1. Binary to Decimal\n2. Binary to Hexadecimal\n3. Binary to Octal\n4. Decimal to Binary\n5. Decimal to Hexadecimal\n6. Decimal to Octal\n7. Octal to Binary\n8. Octal to Decimal\n9. Octal to Hexadecimal\n10. Hexadecimal to Binary\n11. Hexadecimal to Decimal\n12. Hexadecimal to Octal\n")
+            choice = int(input("Enter your Choice of Number System Convertor(1 to 12): \n"))
+            if choice == 1: #binary to decimal
+                binary_input = input("Enter a binary number: ")
+                print("Decimal: \n", binary_to_decimal(binary_input))
+            elif choice == 2: #binary to hexadecimal
+                binary_input = input("Enter a binary number: ")
+                print("Hexadecimal: \n", binary_to_hexadecimal(binary_input))
+            elif choice == 3: #binary to octal
+                binary_input = input("Enter a binary number: ")
+                print("Octal: \n", binary_to_octal(binary_input))
+            elif choice == 4: #decimal to binary
+                decimal_input = (input("Enter a decimal number: "))
+                print("Binary: \n", decimal_to_binary(decimal_input))
+            elif choice == 5: #decimal to hexadecimal
+                decimal_input = (input("Enter a decimal number: "))
+                print("Hexadecimal: \n", decimal_to_hexadecimal(decimal_input))
+            elif choice == 6: #decimal to octal
+                decimal_input = (input("Enter a decimal number: "))
+                print("Octal: \n", decimal_to_octal(decimal_input))
+            elif choice == 7: #octal to binary
+                octal_input = input("Enter an octal number: ")
+                print("Binary: \n", octal_to_binary(octal_input))
+            elif choice == 8: #octal to decimal
+                octal_input = input("Enter an octal number: ")
+                print("Decimal: \n", octal_to_decimal(octal_input))
+            elif choice == 9: #octal to hexadecimal
+                octal_input =input("Enter an octal number: ")
+                print("Hexadecimal: \n", octal_to_hexadecimal(octal_input))
+            elif choice == 10: #hexadecimal to binary
+                hexadecimal_input = input("Enter a hexadecimal number: ")
+                print("Binary: \n", hexadecimal_to_binary(hexadecimal_input))
+            elif choice == 11: #hexadecimal to decimal
+                hexadecimal_input = input("Enter a hexadecimal number: ")
+                print("Decimal: \n", hexadecimal_to_decimal(hexadecimal_input))
+            elif choice == 12: #hexadecimal to octal
+                hexadecimal_input = input("Enter a hexadecimal number: ")
+                print("Octal: \n", hexadecimal_to_octal(hexadecimal_input))
+            else:
+                print("Invalid choice.\n")
+                
+        elif cho == 2: #Roman Numeral to Decimal
+            roman_input = input("Enter a Roman Number: \n")
+            print("Decimal: \n", roman_to_decimal(roman_input))
+
+        elif cho == 3: # Logic gates
+            print("Choice of Logic Gate:\n1. AND Gate\n2. OR Gate\n3. NOT Gate\n4. NAND Gate\n5. NOR Gate\n6. X-OR Gate\n7. X-NOR Gate\n" )
+            choice1 = int(input("Enter choice of Logic Gate Output(1 to 7): \n"))
+            if choice1 in [1, 2, 3, 4, 5, 6, 7]:
+                input1 = int(input("Enter input (1 or 0): \n"))
+                if choice1 != 3:
+                    input2 = int(input("Enter second input (1 or 0): \n"))
+                    result = logic_gate_operation(choice1, input1, input2)
+                else:
+                    result = logic_gate_operation(choice1, input1)
+                print("Result: \n", result)
+            else:
+                print("Invalid choice!\n")
+
+        user_input = input("Do you want to continue? (Yes/No): \n")
+        if user_input.lower() != 'yes':
+            break
+
+if __name__ == "__main__":
+    main()
